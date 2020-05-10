@@ -12,9 +12,9 @@ You can address the API using postman or other client.
 
 If you use Postman mind to set off SSL sertificate varification to off in settings.
 
-I exported some operations in .json format. They could be found at: BasicApi/Postman requests export/ in the repository.
-
 To make request at https://localhost:5001 you need to start the API with Kestrel.
+
+I exported some operations in .json format. They could be found at: BasicApi/Postman requests export/ in the repository.
 
 Or you can find endpoints below.
 
