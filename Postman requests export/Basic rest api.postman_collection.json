@@ -1,0 +1,258 @@
+{
+	"info": {
+		"_postman_id": "d0396525-e14a-4d8c-b0b2-d9ecc6d094da",
+		"name": "Basic rest api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "https://localhost:5001/api/cars/",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"brand\": \"Mazda\",\r\n        \"yearOfProduction\": \"2019-02-01T21:28:56.321\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:5001/api/cars/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"cars",
+						""
+					]
+				},
+				"description": "Get all cars"
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:5001/api/cars",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "      {\r\n            \"id\": 4,\r\n            \"brand\": \"Kamaz 304\",\r\n            \"yearOfProduction\": \"2014-02-01T21:28:56.321\"\r\n        }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:5001/api/cars",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"cars"
+					]
+				},
+				"description": "Update car"
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:5001/api/cars/1",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:5001/api/cars/1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"cars",
+						"1"
+					]
+				},
+				"description": "Delete car"
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:5001/api/cars/filter?fromYear=2000&toYear=2002",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:5001/api/cars/filter?fromYear=2000&toYear=2002",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"cars",
+						"filter"
+					],
+					"query": [
+						{
+							"key": "fromYear",
+							"value": "2000"
+						},
+						{
+							"key": "toYear",
+							"value": "2002"
+						}
+					]
+				},
+				"description": "Get cars with filtering"
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:5001/api/cars/sort",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:5001/api/cars/sort",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"cars",
+						"sort"
+					]
+				},
+				"description": "Get cars with sorting by brand"
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:5001/api/cars/options?fromYear=2002&page=1&byBrand=0",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:5001/api/cars/options?fromYear=2002&page=1&byBrand=0",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"cars",
+						"options"
+					],
+					"query": [
+						{
+							"key": "fromYear",
+							"value": "2002"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "byBrand",
+							"value": "0"
+						}
+					]
+				},
+				"description": "Get cars with more sorting options"
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:5001/api/cars/2",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:5001/api/cars/2",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"cars",
+						"2"
+					]
+				},
+				"description": "Get car details"
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:5001/api/cars/",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:5001/api/cars/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"cars",
+						""
+					]
+				},
+				"description": "Get all cars. On this end-point there is in memory caching."
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
