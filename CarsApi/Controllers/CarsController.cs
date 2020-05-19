@@ -29,7 +29,7 @@
             if (!this.memoryCache.TryGetValue<List<CarDTO>>("all-cars", out var allCars))
             {
                 allCars = this.carService.All().ToList();
-                this.memoryCache.Set("all-cars", allCars, TimeSpan.FromSeconds(20));
+                this.memoryCache.Set("all-cars", allCars, TimeSpan.FromSeconds(5));
             }
 
             return allCars;
@@ -99,9 +99,16 @@
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
+            var car = this.carService.Details(id);
+
+            if (car == null)
+            {
+                return this.NotFound();
+            }
+
             await this.carService.DeleteAsync(id);
 
-            return this.Ok(204);
+            return this.NoContent();
         }
     }
 }

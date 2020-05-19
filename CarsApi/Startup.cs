@@ -1,14 +1,17 @@
 ﻿namespace CarsApi
 {
+    using AutoMapper;
     using CarsApi.Data;
     using CarsApi.Data.Seed;
     using CarsApi.Services;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Mvc.Formatters;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using System;
 
     public class Startup
     {
@@ -24,12 +27,11 @@
         {
             services.AddDbContext<ApplicationDbContext>(
                options => options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
-
             services.AddScoped(typeof(IEntityIRepository<>), typeof(EntityIRepository<>));
             services.AddTransient<ICarService, CarsService>();
             services.AddMemoryCache();
-
-            services.AddControllers();
+            services.AddControllers(options => options.OutputFormatters.Add(new XmlSerializerOutputFormatter()));
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

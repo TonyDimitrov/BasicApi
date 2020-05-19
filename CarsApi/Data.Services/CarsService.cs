@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using AutoMapper;
     using CarsApi.Data;
     using CarsApi.Data.Models;
     using CarsApi.DTO.Models;
@@ -12,21 +13,17 @@
     public class CarsService : ICarService
     {
         private readonly IEntityIRepository<Car> carRepository;
+        private readonly IMapper mapper;
 
-        public CarsService(IEntityIRepository<Car> carRepository)
+        public CarsService(IEntityIRepository<Car> carRepository, IMapper mapper)
         {
             this.carRepository = carRepository;
+            this.mapper = mapper;
         }
 
         public IQueryable<CarDTO> All()
         {
-            return this.carRepository.All()
-                .Select(c => new CarDTO
-                {
-                    Id = c.Id,
-                    Brand = c.Brand,
-                    YearOfProduction = c.YearOfProduction,
-                });
+            return this.mapper.Map<IEnumerable<CarDTO>>(this.carRepository.All().AsEnumerable()).AsQueryable();
         }
 
         public List<CarDTO> AllSorted(bool sortByBrandAsc)
@@ -50,14 +47,8 @@
             int from = fromYear != null ? fromYear.Value : GlobalConstants.MinYearValue;
             int to = toYear != null ? toYear.Value : DateTime.Now.Year;
 
-            return this.carRepository.All()
-                .Where(c => c.YearOfProduction.Year >= from && c.YearOfProduction.Year <= to)
-                .Select(c => new CarDTO
-                {
-                    Id = c.Id,
-                    Brand = c.Brand,
-                    YearOfProduction = c.YearOfProduction,
-                })
+            return this.mapper.Map<IEnumerable<CarDTO>>(this.carRepository.All()
+                .Where(c => c.YearOfProduction.Year >= from && c.YearOfProduction.Year <= to))
                 .ToList();
         }
 
@@ -114,38 +105,20 @@
 
         public CarDetailsDTO Details(int id)
         {
-            return this.carRepository.All()
+           return this.mapper.Map<CarDetailsDTO>(this.carRepository.All()
                 .Where(c => c.Id == id)
-                .Select(c => new CarDetailsDTO
-                {
-                    Id = c.Id,
-                    Brand = c.Brand,
-                    YearOfProduction = c.YearOfProduction,
-                    CreatedOn = c.CreatedOn,
-                })
-                .FirstOrDefault();
+                .FirstOrDefault());
         }
 
         public async Task AddAsync(CarDTO car)
         {
-            await this.carRepository.AddAsync(new Car
-            {
-                CreatedOn = DateTime.UtcNow,
-                Brand = car.Brand,
-                YearOfProduction = car.YearOfProduction,
-            });
+            await this.carRepository.AddAsync(this.mapper.Map<Car>(car));
             await this.carRepository.SaveChangesAsync();
         }
 
         public async Task EditAsync(CarDTO car)
         {
-            this.carRepository.Edit(new Car
-            {
-                Id = car.Id,
-                CreatedOn = DateTime.UtcNow,
-                Brand = car.Brand,
-                YearOfProduction = car.YearOfProduction,
-            });
+            this.carRepository.Edit(this.mapper.Map<Car>(car));
             await this.carRepository.SaveChangesAsync();
         }
 
