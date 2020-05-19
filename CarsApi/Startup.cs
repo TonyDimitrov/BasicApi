@@ -1,5 +1,7 @@
 ﻿namespace CarsApi
 {
+    using System;
+
     using AutoMapper;
     using CarsApi.Data;
     using CarsApi.Data.Seed;
@@ -11,7 +13,6 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-    using System;
 
     public class Startup
     {

@@ -26,6 +26,14 @@
             return this.mapper.Map<IEnumerable<CarDTO>>(this.carRepository.All().AsEnumerable()).AsQueryable();
         }
 
+        public List<CarDTO> All(IEnumerable<int> ids)
+        {
+            return this.mapper.Map<IEnumerable<CarDTO>>(this.carRepository.All()
+                 .Where(c => ids
+                 .Any(id => id == c.Id)))
+                 .ToList();
+        }
+
         public List<CarDTO> AllSorted(bool sortByBrandAsc)
         {
             if (sortByBrandAsc)
@@ -105,9 +113,9 @@
 
         public CarDetailsDTO Details(int id)
         {
-           return this.mapper.Map<CarDetailsDTO>(this.carRepository.All()
-                .Where(c => c.Id == id)
-                .FirstOrDefault());
+            return this.mapper.Map<CarDetailsDTO>(this.carRepository.All()
+                 .Where(c => c.Id == id)
+                 .FirstOrDefault());
         }
 
         public async Task AddAsync(CarDTO car)

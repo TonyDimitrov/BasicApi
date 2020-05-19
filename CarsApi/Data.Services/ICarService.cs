@@ -10,6 +10,8 @@
     {
         IQueryable<CarDTO> All();
 
+        List<CarDTO> All(IEnumerable<int> ids);
+
         List<CarDTO> AllSorted(bool sortByBrandAsc);
 
         CarWithPagingDTO AllByPage(int page, int pageSize, IQueryable<CarDTO> cars);

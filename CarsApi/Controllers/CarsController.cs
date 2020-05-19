@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
 
     using CarsApi.DTO.Models;
+    using CarsApi.Helpers;
     using CarsApi.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Caching.Memory;
@@ -24,6 +25,7 @@
         }
 
         [HttpGet]
+        [HttpHead]
         public ActionResult<IEnumerable<CarDTO>> Get()
         {
             if (!this.memoryCache.TryGetValue<List<CarDTO>>("all-cars", out var allCars))
@@ -46,6 +48,26 @@
             }
 
             return this.NotFound();
+        }
+
+        [HttpGet("({ids})")]
+        public ActionResult<IEnumerable<CarDTO>> Get(
+        [FromRoute]
+        [ModelBinder(BinderType = typeof(ArrayModelBinder))]
+        IEnumerable<int> ids)
+        {
+            if (ids == null)
+            {
+                return this.BadRequest();
+            }
+
+            var cars = this.carService.All(ids);
+            if (ids.Count() != cars.Count)
+            {
+                return this.NotFound();
+            }
+
+            return this.Ok(cars);
         }
 
         [HttpGet("filter/{fromYear?}/{toYear?}")]
