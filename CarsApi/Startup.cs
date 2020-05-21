@@ -31,7 +31,9 @@
             services.AddScoped(typeof(IEntityIRepository<>), typeof(EntityIRepository<>));
             services.AddTransient<ICarService, CarsService>();
             services.AddMemoryCache();
-            services.AddControllers(options => options.OutputFormatters.Add(new XmlSerializerOutputFormatter()));
+            services.AddControllers(options => options.OutputFormatters.Add(new XmlSerializerOutputFormatter()))
+                .AddNewtonsoftJson();
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 

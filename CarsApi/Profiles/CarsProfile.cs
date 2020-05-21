@@ -11,6 +11,10 @@
             this.CreateMap<Car, CarDTO>();
             this.CreateMap<CarDTO, Car>();
             this.CreateMap<Car, CarDetailsDTO>();
+            this.CreateMap<CarUpdateDTO, Car>();
+            this.CreateMap<Car, CarUpdateDTO>();
+            this.CreateMap<CarDTO, CarUpdateDTO>();
+            this.CreateMap<CarUpdateDTO, CarDTO>();
         }
     }
 }

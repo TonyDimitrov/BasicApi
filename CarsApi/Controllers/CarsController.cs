@@ -5,9 +5,11 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using AutoMapper;
     using CarsApi.DTO.Models;
     using CarsApi.Helpers;
     using CarsApi.Services;
+    using Microsoft.AspNetCore.JsonPatch;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Caching.Memory;
 
@@ -17,11 +19,16 @@
     {
         private readonly ICarService carService;
         private readonly IMemoryCache memoryCache;
+        private readonly IMapper mapper;
 
-        public CarsController(ICarService carService, IMemoryCache memoryCache)
+        public CarsController(
+            ICarService carService,
+            IMemoryCache memoryCache,
+            IMapper mapper)
         {
             this.carService = carService;
             this.memoryCache = memoryCache;
+            this.mapper = mapper;
         }
 
         [HttpGet]
@@ -116,6 +123,32 @@
             await this.carService.EditAsync(car);
 
             return this.Ok(204);
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<ActionResult> Patch(int id, JsonPatchDocument<CarUpdateDTO> patchDocument)
+        {
+            var dbCourse = this.carService.All().Where(c => c.Id == id).FirstOrDefault();
+
+            if (dbCourse == null)
+            {
+                return this.NotFound();
+            }
+
+            var courseToPatch = this.mapper.Map<CarUpdateDTO>(dbCourse);
+
+            patchDocument.ApplyTo(courseToPatch);
+
+            if (!this.TryValidateModel(courseToPatch))
+            {
+                return this.ValidationProblem(this.ModelState);
+            }
+
+            var updatedCourse = this.mapper.Map(courseToPatch, dbCourse);
+
+            await this.carService.EditPartlyAsync(updatedCourse);
+
+            return this.NoContent();
         }
 
         [HttpDelete("{id}")]

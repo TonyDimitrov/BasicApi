@@ -26,6 +26,8 @@
 
         Task EditAsync(CarDTO car);
 
+        Task EditPartlyAsync(CarDTO car);
+
         Task DeleteAsync(int id);
     }
 }

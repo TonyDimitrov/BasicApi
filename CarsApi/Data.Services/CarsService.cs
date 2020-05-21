@@ -130,6 +130,16 @@
             await this.carRepository.SaveChangesAsync();
         }
 
+        public async Task EditPartlyAsync(CarDTO car)
+        {
+                var dbCar = this.carRepository.All()
+                    .FirstOrDefault(c => c.Id == car.Id);
+
+                this.mapper.Map(car, dbCar);
+                this.carRepository.Edit(dbCar);
+                await this.carRepository.SaveChangesAsync();
+        }
+
         public async Task DeleteAsync(int id)
         {
             var carToDelete = this.carRepository.All()
